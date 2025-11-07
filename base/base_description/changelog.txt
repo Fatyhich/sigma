@@ -1,0 +1,21 @@
+=== 2025-11-07 ===
+
+1. Исправлен синтаксис в _basement.urdf.xacro:
+  - Заменил scale="$(scale)" на scale="${scale}"
+  - Причина: $() - это синтаксис подстановки (substitution), работает только с командами
+  типа find, env, arg
+  - ${} - правильный синтаксис для доступа к параметрам xacro макроса
+
+  2. Исправлен view_box.launch.py:
+  - Добавил ParameterValue с value_type=str для параметра robot_description
+  - Причина: ROS2 Jazzy пытался парсить XML URDF как YAML, что вызывало ошибку
+  - Добавил DeclareLaunchArgument для параметра scale с возможностью передавать значение
+  при запуске
+  - Обернул значение scale в кавычки в команде xacro: scale:=", scale, "
+  - Причина: без кавычек xacro интерпретирует 0.01 0.01 0.01 как три отдельных аргумента
+
+  Использованные модули:
+  - launch_ros.parameter_descriptions.ParameterValue - для явного указания типа параметра
+  - launch.actions.DeclareLaunchArgument - для объявления launch аргументов
+  - launch.substitutions.LaunchConfiguration - для получения значений аргументов
+

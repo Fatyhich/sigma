@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<robot name="basement_test" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- define args to allow change them when starting -->
+  <xacro:arg name="scale" default="1 1 1"/>
+
+  <!-- connect macros -->
+  <xacro:include filename="$(find base_description)/urdf/_basement.urdf.xacro"/>
+
+  <link name="base_link"/>
+
+  <xacro:basement parent="base_link"
+                  scale="$(arg scale)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:basement>
+
+</robot>
