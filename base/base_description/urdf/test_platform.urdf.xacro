@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<robot name="basement_test" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- define args to allow change them when starting -->
+  <xacro:arg name="scale" default="1 1 1"/>
+  <xacro:arg name="use_nominal_extrinsics" default="false"/>
+  <xacro:arg name="add_plug" default="false" />
+
+  <!-- connect macros -->
+  <xacro:include filename="$(find base_description)/urdf/_basement.urdf.xacro"/>
+  <xacro:include filename="$(find base_description)/urdf/_mockLiDAR.urdf.xacro"/>
+  <xacro:include filename="$(find orbbec_description)/urdf/femto_bolt.urdf.xacro"/>
+
+  <link name="base_link"/>
+  <xacro:basement parent="base_link"
+                  scale="$(arg scale)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:basement>
+
+  <xacro:femto_bolt prefix="camera" parent="cheburashka_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+    <origin xyz="0.023 0 0.009" rpy="0 0 0"/>
+  </xacro:femto_bolt>
+
+  <xacro:ouster_lidar parent="cheburashka_link" name="lidar">
+    <origin xyz="0 0 0.06" rpy="0 0 0"/>
+  </xacro:ouster_lidar>
+</robot>
